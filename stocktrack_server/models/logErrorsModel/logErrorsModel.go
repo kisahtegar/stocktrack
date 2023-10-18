@@ -55,11 +55,11 @@ import "time"
 type (
 	// LogErrors represents a single error log record.
 	LogErrors struct {
-		Id               uint64    `gorm:"column:id"`
-		UserId           uint64    `gorm:"column:user_id"`
-		ModuleName       string    `gorm:"column:module_name"`
-		DescriptionError string    `gorm:"column:description_error"`
-		CreatedDate      time.Time `gorm:"column:created_date"`
+		Id               uint64    `gorm:"column:Id"`
+		UserId           uint64    `gorm:"column:UserId"`
+		ModuleName       string    `gorm:"column:ModuleName"`
+		DescriptionError string    `gorm:"column:DescError"`
+		CreatedDate      time.Time `gorm:"column:CreatedDate"`
 	}
 
 	// DataLogErrors represents the parameters required to insert error log data.
