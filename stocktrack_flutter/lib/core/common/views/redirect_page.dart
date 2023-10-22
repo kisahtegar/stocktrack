@@ -13,7 +13,7 @@ class RedirectPage extends StatelessWidget {
       if (JwtDecoder.isExpired(token!)) {
         // Token has expired; navigate to the sign-in screen.
         Future.delayed(Duration.zero, () {
-          debugPrint('Redirecting to: /signin');
+          debugPrint('RedirectPage(token-expired): /signin');
           Navigator.of(context).pushReplacementNamed(SignInScreen.routeName);
         });
         return const Center(
@@ -22,7 +22,7 @@ class RedirectPage extends StatelessWidget {
       } else {
         // Token is still valid; navigate to the dashboard.
         Future.delayed(Duration.zero, () {
-          debugPrint('Redirecting to: /dashboard');
+          debugPrint('RedirectPage(token-valid): /dashboard');
           Navigator.of(context).pushReplacementNamed(Dashboard.routeName);
         });
         return const Center(
@@ -31,7 +31,7 @@ class RedirectPage extends StatelessWidget {
       }
     } else {
       Future.delayed(Duration.zero, () {
-        debugPrint('Redirecting to: /signin');
+        debugPrint('RedirectPage(token-null): /signin');
         Navigator.of(context).pushReplacementNamed(SignInScreen.routeName);
       });
       return const Center(

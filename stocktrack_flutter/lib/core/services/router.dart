@@ -19,33 +19,30 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case '/':
       debugPrint('generateRoute(/): Started...');
-      continue dashboard;
+      continue auth;
 
-    // final prefs = sl<SharedPreferences>();
-    // final token = prefs.getString(kUserTokenKey);
+    auth:
+    case '/auth':
+      debugPrint('generateRoute(/auth): Started...');
+      final prefs = sl<SharedPreferences>();
+      final token = prefs.getString(kUserTokenKey);
 
-    // // return CircularProgressIndicator();
+      if (token != null) {
+        if (JwtDecoder.isExpired(token)) {
+          debugPrint('generateRoute(/auth): Expired token.');
+          return _pageBuilder(
+            (context) => RedirectPage(token),
+            settings: settings,
+          );
+          // continue signin;
+        } else {
+          debugPrint('generateRoute(/auth): Navigated to /dashboard.');
+          continue dashboard;
+        }
+      }
+      continue signin;
 
-    // if (token != null) {
-    //   if (JwtDecoder.isExpired(token)) {
-    //     debugPrint('generateRoute(/): Expired token.');
-    //     return _pageBuilder(
-    //       (context) => RedirectPage(token),
-    //       settings: settings,
-    //     );
-    //   } else {
-    //     debugPrint('generateRoute(/): Navigated to dashboard.');
-    //     return _pageBuilder(
-    //       (_) => const Dashboard(),
-    //       settings: settings,
-    //     );
-    //   }
-    // }
-    // return _pageBuilder(
-    //   (context) => RedirectPage(token),
-    //   settings: settings,
-    // );
-
+    signin:
     case SignInScreen.routeName:
       debugPrint('generateRoute(/signin): Started...');
       return _pageBuilder(
@@ -59,6 +56,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     dashboard:
     case Dashboard.routeName:
       debugPrint('generateRoute(/dashboard): Started...');
+
       final prefs = sl<SharedPreferences>();
       final token = prefs.getString(kUserTokenKey);
 
@@ -108,59 +106,3 @@ PageRouteBuilder<dynamic> _pageBuilder(
     pageBuilder: (context, _, __) => page(context),
   );
 }
-
-// MaterialPageRoute<dynamic> _pageBuilder(
-//   Widget Function(BuildContext) page, {
-//   required RouteSettings settings,
-// }) {
-//   return MaterialPageRoute(
-//     settings: settings,
-//     builder: (context) => page(context),
-//     // transitionsBuilder: (_, animation, __, child) => FadeTransition(
-//     //   opacity: animation,
-//     //   child: child,
-//     // ),
-//     // pageBuilder: (context, _, __) => page(context),
-//   );
-// }
-
-
-// case '/':
-    //   debugPrint('generateRoute("/"): Loaded!');
-    //   final prefs = sl<SharedPreferences>();
-    //   return _pageBuilder(
-    //     (context) {
-    //       final token = prefs.getString(kUserTokenKey);
-
-    //       if (token != null) {
-    //         final hasExpired = JwtDecoder.isExpired(token);
-    //         debugPrint('generateRoute("/"): hasExpired = $hasExpired');
-
-    //         if (hasExpired) {
-    //           debugPrint('generateRoute("/"): inside hasExpired');
-
-    //           // Token has expired; navigate to the login screen.
-    //           return BlocProvider(
-    //             create: (_) => sl<AuthCubit>(),
-    //             child: const SignInScreen(),
-    //           );
-    //         } else {
-    //           debugPrint('generateRoute("/"): outside hasExpired');
-    //           // Token is still valid; navigate to the dashboard.
-    //           return BlocProvider(
-    //             // create: (_) => sl<AuthCubit>()..tokenExpired(),
-    //             create: (_) => sl<AuthCubit>(),
-    //             child: const Dashboard(),
-    //           );
-    //         }
-    //       }
-    //       debugPrint('generateRoute("/"): doesnt have token');
-    //       // User is not opening the app for the first time and needs to log in.
-    //       return BlocProvider(
-    //         create: (_) => sl<AuthCubit>(),
-    //         child: const SignInScreen(),
-    //       );
-    //     },
-    //     settings: settings,
-    //   );
-    
