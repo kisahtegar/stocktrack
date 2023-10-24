@@ -1,5 +1,7 @@
 package entity
 
 const (
-	EntityLogErrors = "logerrors"
+	EntityLogErrors  = "logerrors"
+	EntityUsers      = "users"
+	EntityUserTokens = "usertokens"
 )

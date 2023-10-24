@@ -6,7 +6,11 @@ import (
 	"fmt"
 	"os"
 	"stocktrack_server/config/database"
+	"stocktrack_server/middlewares/logErrors/logErrorsRepository"
+	"stocktrack_server/middlewares/logErrors/logErrorsUsecase"
 	dbModel "stocktrack_server/models/dbmodel"
+	"stocktrack_server/routes/checkHealthRoutes"
+	"stocktrack_server/routes/userRoutes"
 	"strconv"
 	"time"
 
@@ -37,12 +41,14 @@ Example:
 */
 func initializeDomainModule(v1Group *gin.RouterGroup, conn *gorm.DB) {
 	// Create a repository for logging errors
-	// logErrorRepo := logErrorsRepository.NewLogErrorsRepository(conn)
+	logErrorRepo := logErrorsRepository.NewLogErrorsRepository(conn)
 
 	// Create a use case for logging errors
-	// logUC := logErrorsUsecase.NewLogErrorsUsecase(logErrorRepo)
+	logUC := logErrorsUsecase.NewLogErrorsUsecase(logErrorRepo)
 
 	// Initialize and configure routes for different domain modules
+	checkHealthRoutes.CheckHealthRoutes(v1Group)
+	userRoutes.UserRoutes(v1Group, conn, logUC)
 }
 
 /*

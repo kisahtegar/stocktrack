@@ -56,7 +56,7 @@ import "github.com/dgrijalva/jwt-go"
 type (
 	JwtClaims struct {
 		jwt.StandardClaims
-		UserID     int32    `json:"user_id"`
+		UserID     int64    `json:"user_id"`
 		Username   string   `json:"username"`
 		Fullname   string   `json:"fullname"`
 		Attributes []string `json:"attributes"`
