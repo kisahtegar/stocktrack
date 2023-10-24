@@ -1,7 +1,7 @@
-part of 'auth_cubit.dart';
+part of 'auth_bloc.dart';
 
 /// These state classes provide a structured way to represent and manage the
-/// different states of the authentication process within the `AuthCubit`. Each
+/// different states of the authentication process within the `AuthBloc`. Each
 /// state encapsulates the necessary data and information about the current
 /// state of authentication, making it easier to handle and respond to different
 /// scenarios and transitions in the user authentication flow.
@@ -40,9 +40,4 @@ final class AuthError extends AuthState {
 
   @override
   List<String> get props => [message];
-}
-
-/// Represents the state when the user is not logged in.
-final class NotLoggedIn extends AuthState {
-  const NotLoggedIn();
 }

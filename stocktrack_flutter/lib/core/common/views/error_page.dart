@@ -3,12 +3,13 @@ import 'package:lottie/lottie.dart';
 import 'package:stocktrack_flutter/core/res/colours.dart';
 import 'package:stocktrack_flutter/core/res/media_res.dart';
 
-/// The `PageUnderConstruction` widget is used to display a "Page Under
-/// Construction" screen in your app. This screen is typically shown to inform
-/// users that a particular page or feature is not yet available or is currently
-/// in development.
-class PageUnderConstruction extends StatelessWidget {
-  const PageUnderConstruction({super.key});
+class ErrorPage extends StatelessWidget {
+  const ErrorPage({this.errorMessage, super.key});
+
+  final String? errorMessage;
+
+  /// The route name for this screen.
+  static const routeName = '/error';
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +25,12 @@ class PageUnderConstruction extends StatelessWidget {
         ),
         child: SafeArea(
           child: Center(
-            child: Lottie.asset(
-              // Use Lottie animation to display the construction animation.
-              MediaRes.pageUnderConstruction,
+            child: Column(
+              children: [
+                // Use Lottie animation to display the construction animation.
+                Lottie.asset(MediaRes.underConstructionPage),
+                Text(errorMessage ?? ''),
+              ],
             ),
           ),
         ),

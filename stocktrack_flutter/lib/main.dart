@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:provider/provider.dart';
+import 'package:stocktrack_flutter/core/common/app/user_provider.dart';
+import 'package:stocktrack_flutter/core/services/app_router.dart';
 import 'package:stocktrack_flutter/core/services/injection_container.dart';
-import 'package:stocktrack_flutter/core/services/router.dart';
 
 Future<void> main() async {
   setUrlStrategy(PathUrlStrategy());
@@ -18,16 +20,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'StockTrack',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade400),
-        useMaterial3: true,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        // fontFamily: Fonts.poppins,
+    return MultiProvider(
+      providers: [
+        // Provide the UserProvider for managing user-related data.
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: MaterialApp.router(
+        title: 'StockTrack',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade400),
+          useMaterial3: true,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          // fontFamily: Fonts.poppins,
+        ),
+        debugShowCheckedModeBanner: false,
+        // onGenerateRoute: generateRoute,
+        routerDelegate: AppRouter.router.routerDelegate,
+        routeInformationParser: AppRouter.router.routeInformationParser,
+        routeInformationProvider: AppRouter.router.routeInformationProvider,
       ),
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: generateRoute,
     );
   }
 }

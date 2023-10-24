@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:stocktrack_flutter/core/common/app/user_provider.dart';
 import 'package:stocktrack_flutter/core/common/widgets/gradient_background_color.dart';
 import 'package:stocktrack_flutter/core/common/widgets/rounded_button.dart';
 import 'package:stocktrack_flutter/core/res/colours.dart';
 import 'package:stocktrack_flutter/core/res/fonts.dart';
-import 'package:stocktrack_flutter/src/auth/presentation/cubit/auth_cubit.dart';
+import 'package:stocktrack_flutter/core/utils/core_utils.dart';
+import 'package:stocktrack_flutter/core/utils/route_utils.dart';
+import 'package:stocktrack_flutter/src/auth/presentation/bloc/auth_bloc.dart';
 import 'package:stocktrack_flutter/src/auth/presentation/widgets/sign_in_form.dart';
-import 'package:stocktrack_flutter/src/dashboard/presentation/views/dashboard.dart';
 
+/// A screen for user sign-in.
+///
+/// This provides a user interface for users to sign in. It includes a form to
+/// input username and password, a sign-in button, and error handling for
+/// authentication. When the user successfully signs in, their authentication
+/// token is saved using a [UserProvider], and they are navigated to the
+/// dashboard.
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
@@ -30,18 +40,33 @@ class _SignInScreenState extends State<SignInScreen> {
     super.dispose();
   }
 
+  /// Handles the sign-in process.
+  void _signInHandler() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    if (formKey.currentState!.validate()) {
+      context.read<AuthBloc>().add(
+            SignInEvent(
+              username: usernameController.text.trim(),
+              password: passwordController.text.trim(),
+            ),
+          );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<AuthCubit, AuthState>(
+      body: BlocConsumer<AuthBloc, AuthState>(
         listener: (_, state) {
           if (state is AuthError) {
-            // CoreUtils.showSnackBar(context, state.message);
-            debugPrint('SignInScreen: AuthError{$state}');
+            CoreUtils.showSnackBar(context, state.message);
           } else if (state is SignedIn) {
-            debugPrint('SignInScreen: Im here');
-            // context.read<UserProvider>().initUser(state.user as LocalUserModel);
-            Navigator.pushReplacementNamed(context, Dashboard.routeName);
+            // Save the user token to a provider.
+            context.read<UserProvider>().initUserToken(
+                  state.userLoginResponse.data!.token,
+                );
+            // Navigate to the dashboard.
+            context.go(AppPage.dashboard.toPath);
           }
         },
         builder: (context, state) {
@@ -82,19 +107,13 @@ class _SignInScreenState extends State<SignInScreen> {
                         formKey: formKey,
                       ),
                       const SizedBox(height: 30),
-                      RoundedButton(
-                        label: 'Sign In',
-                        onPressed: () {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          // TODO(kisahtegar): Do action in here.
-                          if (formKey.currentState!.validate()) {
-                            context.read<AuthCubit>().signIn(
-                                  username: usernameController.text,
-                                  password: passwordController.text,
-                                );
-                          }
-                        },
-                      ),
+                      if (state is AuthLoading)
+                        const Center(child: CircularProgressIndicator())
+                      else
+                        RoundedButton(
+                          label: 'Sign In',
+                          onPressed: _signInHandler,
+                        ),
                     ],
                   ),
                 ),

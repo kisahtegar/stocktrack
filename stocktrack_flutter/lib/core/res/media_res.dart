@@ -7,6 +7,6 @@ class MediaRes {
   static const _baseLottie = 'assets/lottie';
 
   // Lottie path
-  static const pageUnderConstruction =
+  static const underConstructionPage =
       '$_baseLottie/page_under_construction.json';
 }

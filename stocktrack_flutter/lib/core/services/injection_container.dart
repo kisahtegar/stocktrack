@@ -5,7 +5,7 @@ import 'package:stocktrack_flutter/src/auth/data/datasources/auth_remote_data_so
 import 'package:stocktrack_flutter/src/auth/data/repos/auth_repo_impl.dart';
 import 'package:stocktrack_flutter/src/auth/domain/repos/auth_repo.dart';
 import 'package:stocktrack_flutter/src/auth/domain/usecases/sign_in.dart';
-import 'package:stocktrack_flutter/src/auth/presentation/cubit/auth_cubit.dart';
+import 'package:stocktrack_flutter/src/auth/presentation/bloc/auth_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -17,7 +17,7 @@ Future<void> _initAuth() async {
   final prefs = await SharedPreferences.getInstance();
 
   sl
-    ..registerFactory(() => AuthCubit(signIn: sl()))
+    ..registerFactory(() => AuthBloc(signIn: sl()))
     ..registerLazySingleton(() => SignIn(sl()))
     ..registerLazySingleton<AuthRepo>(() => AuthRepoImpl(sl()))
     ..registerLazySingleton<AuthRemoteDataSrc>(

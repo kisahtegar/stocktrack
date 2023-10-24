@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stocktrack_flutter/core/common/views/page_underconstruction.dart';
 import 'package:stocktrack_flutter/core/common/views/redirect_page.dart';
+import 'package:stocktrack_flutter/core/common/views/underconstruction_page.dart';
 import 'package:stocktrack_flutter/core/services/injection_container.dart';
 import 'package:stocktrack_flutter/src/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:stocktrack_flutter/src/auth/presentation/cubit/auth_cubit.dart';
+import 'package:stocktrack_flutter/src/auth/presentation/bloc/auth_bloc.dart';
 import 'package:stocktrack_flutter/src/auth/presentation/views/sign_in_screen.dart';
 import 'package:stocktrack_flutter/src/dashboard/presentation/views/dashboard.dart';
 
@@ -47,7 +47,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       debugPrint('generateRoute(/signin): Started...');
       return _pageBuilder(
         (_) => BlocProvider(
-          create: (_) => sl<AuthCubit>(),
+          create: (_) => sl<AuthBloc>(),
           child: const SignInScreen(),
         ),
         settings: settings,
@@ -83,7 +83,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     default:
       debugPrint('generateRoute(default): Started...');
       return _pageBuilder(
-        (_) => const PageUnderConstruction(),
+        (_) => const UnderConstructionPage(),
         settings: settings,
       );
   }
