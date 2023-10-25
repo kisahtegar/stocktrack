@@ -36,4 +36,99 @@ CREATE TABLE IF NOT EXISTS public.logerrors
     "CreatedDate" date NOT NULL,
     PRIMARY KEY ("Id")
 );
+
+CREATE TABLE IF NOT EXISTS public.mssuppliers
+(
+    "SupplierId" bigserial NOT NULL,
+    "SupplierCode" character varying(45) NOT NULL,
+    "SupplierName" character varying(150) NOT NULL,
+    "SupplierAddress" character varying(150) NOT NULL,
+    "SupplierContact" character varying(150) NOT NULL,
+    "SupplierStatus" smallint NOT NULL,
+    "CreatedDate" date NOT NULL,
+    "CreatedBy" character varying(150) NOT NULL,
+    "UpdatedDate" date,
+    "UpdatedBy" character varying(150),
+    PRIMARY KEY ("SupplierId")
+);
+
+CREATE TABLE IF NOT EXISTS public.msitems
+(
+    "ItemId" bigserial NOT NULL,
+    "SupplierId" bigint NOT NULL,
+    "ItemCode" character varying(45) NOT NULL,
+    "ItemName" character varying(150) NOT NULL,
+    "ItemDescription" character varying(150) NOT NULL,
+    "ItemCost" character varying(150) NOT NULL,
+    "ItemStatus" smallint NOT NULL,
+    "CreatedDate" date NOT NULL,
+    "CreatedBy" character varying(150) NOT NULL,
+    "UpdatedDate" date,
+    "UpdatedBy" character varying(150),
+    PRIMARY KEY ("ItemId")
+);
+
+CREATE TABLE IF NOT EXISTS public.mspo
+(
+    "PoId" bigserial NOT NULL,
+    "SupplierId" bigint NOT NULL,
+    "PoCode" character varying(45) NOT NULL,
+    "Amount" double precision,
+    "DiscountPercent" double precision,
+    "Discount" double precision,
+    "TaxPercent" double precision,
+    "Tax" double precision,
+    "PoStatus" smallint,
+    "CreatedDate" date NOT NULL,
+    "CreatedBy" character varying(150) NOT NULL,
+    "UpdatedDate" date,
+    "UpdatedBy" character varying(150),
+    PRIMARY KEY ("PoId")
+);
+
+CREATE TABLE IF NOT EXISTS public.poitems
+(
+    "PoItemId" bigserial NOT NULL,
+    "PoId" bigint NOT NULL,
+    "ItemId" bigint NOT NULL,
+    "Quantity" bigint NOT NULL,
+    "Price" numeric(45, 2) NOT NULL,
+    "Unit" character varying(50) NOT NULL,
+    "Total" bigint NOT NULL,
+    "CreatedDate" date NOT NULL,
+    "CreatedBy" character varying(150) NOT NULL,
+    PRIMARY KEY ("PoItemId")
+);
+
+ALTER TABLE IF EXISTS public.msitems
+    ADD FOREIGN KEY ("SupplierId")
+    REFERENCES public.mssuppliers ("SupplierId") MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public.mspo
+    ADD FOREIGN KEY ("SupplierId")
+    REFERENCES public.mssuppliers ("SupplierId") MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public.poitems
+    ADD FOREIGN KEY ("PoId")
+    REFERENCES public.mspo ("PoId") MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public.poitems
+    ADD FOREIGN KEY ("ItemId")
+    REFERENCES public.msitems ("ItemId") MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
 END;
