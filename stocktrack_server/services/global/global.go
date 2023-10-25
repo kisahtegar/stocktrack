@@ -7,6 +7,7 @@ import (
 	"errors"
 	"strings"
 
+	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
@@ -69,4 +70,20 @@ func GenerateUUIDV4() (string, error) {
 		return "", errors.New(moduleName + ".error: " + err.Error())
 	}
 	return id.String(), nil
+}
+
+// GetToken extracts the authorization token from the "Authorization" header in a Gin context.
+//
+// Parameters:
+//   - c (gin.Context): The Gin context from which the token should be extracted.
+//
+// Returns:
+//   - (string): The extracted token string if found, empty string otherwise.
+func GetToken(c *gin.Context) string {
+	authHeader := c.GetHeader("Authorization")
+	if !strings.Contains(authHeader, "Bearer") {
+		return ""
+	}
+	tokenString := strings.Replace(authHeader, "Bearer ", "", -1)
+	return tokenString
 }

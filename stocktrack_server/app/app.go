@@ -10,6 +10,7 @@ import (
 	"stocktrack_server/middlewares/logErrors/logErrorsUsecase"
 	dbModel "stocktrack_server/models/dbmodel"
 	"stocktrack_server/routes/checkHealthRoutes"
+	"stocktrack_server/routes/supplierRoutes"
 	"stocktrack_server/routes/userRoutes"
 	"strconv"
 	"time"
@@ -49,6 +50,7 @@ func initializeDomainModule(v1Group *gin.RouterGroup, conn *gorm.DB) {
 	// Initialize and configure routes for different domain modules
 	checkHealthRoutes.CheckHealthRoutes(v1Group)
 	userRoutes.UserRoutes(v1Group, conn, logUC)
+	supplierRoutes.SupplierRoutes(v1Group, conn, logUC)
 }
 
 /*

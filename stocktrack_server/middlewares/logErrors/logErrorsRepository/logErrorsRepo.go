@@ -84,7 +84,7 @@ func (db *sqlRepository) InsertLogErrors(data *logErrorsModel.DataLogErrors) err
 		CreatedDate:      time.Now(),
 	}
 
-	err := db.Conn.Table(entity.EntityLogErrors).Create(&logErrors).Error
+	err := db.Conn.Table(entity.EntityLogErrors).Select("UserId", "ModuleName", "DescError", "CreatedDate").Create(&logErrors).Error
 	if err != nil {
 		return errors.New("LogErrorsRepo.InsertLogErrors Err : " + err.Error())
 	}
