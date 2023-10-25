@@ -34,7 +34,7 @@ func (s *supplierRepository) RetrieveAllSupplier(paginationData sharedGlobal.Pag
 	if paginationData.Search != "" {
 
 		err = s.conn.Table(entity.EntityMsSuppliers).
-			Where("(concat(SupplierCode,SupplierName) LIKE ?)", "%"+paginationData.Search+"%").
+			Where("(concat(\"SupplierCode\",\"SupplierName\") LIKE ?)", "%"+paginationData.Search+"%").
 			Limit(paginationData.Limit).
 			Offset(paginationData.Offset).
 			Find(&suppliers).

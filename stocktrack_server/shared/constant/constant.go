@@ -7,6 +7,7 @@ const (
 	ServiceCodeAuth        = "01"
 	ServiceCodeUser        = "02"
 	ServiceCodeSupplier    = "03"
+	ServiceCodeItem        = "04"
 
 	SuccessMessage  = "success"
 	BadRequestMsg   = "bad request"
