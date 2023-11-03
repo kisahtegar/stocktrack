@@ -10,6 +10,7 @@ import (
 	"stocktrack_server/middlewares/logErrors/logErrorsUsecase"
 	dbModel "stocktrack_server/models/dbmodel"
 	"stocktrack_server/routes/checkHealthRoutes"
+	"stocktrack_server/routes/itemRoutes"
 	"stocktrack_server/routes/supplierRoutes"
 	"stocktrack_server/routes/userRoutes"
 	"strconv"
@@ -27,10 +28,6 @@ import (
 /*
 initializeDomainModule initializes and configures the domain modules and their respective
 routes for the application.
-
-This function sets up the necessary routes and dependencies for various domain modules,
-such as user, doctor, patient, medication, and examination, by providing them with the
-required database connection and error logging functionality.
 
 Parameters:
   - v1Group (gin.RouterGroup): The Gin RouterGroup where the routes for domain modules will be added.
@@ -51,6 +48,7 @@ func initializeDomainModule(v1Group *gin.RouterGroup, conn *gorm.DB) {
 	checkHealthRoutes.CheckHealthRoutes(v1Group)
 	userRoutes.UserRoutes(v1Group, conn, logUC)
 	supplierRoutes.SupplierRoutes(v1Group, conn, logUC)
+	itemRoutes.ItemRoutes(v1Group, conn, logUC)
 }
 
 /*

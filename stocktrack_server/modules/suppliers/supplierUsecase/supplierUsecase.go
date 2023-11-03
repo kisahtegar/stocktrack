@@ -125,7 +125,7 @@ func (s *supplierUsecase) UpdateSupplier(supplierRequest supplierModel.SupplierU
 
 // Implement DeleteSupplier for usecase.
 func (s *supplierUsecase) DeleteSupplier(supplierCode string) error {
-	// Attempt to delete the doctor's record from the repository using the provided ID.
+	// Attempt to delete the supplier record from the repository using the provided ID.
 	err := s.supplierRepo.DeleteSupplier(supplierCode)
 
 	// Check if an error occurred during the deletion process.
