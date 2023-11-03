@@ -6,4 +6,5 @@ const (
 	EntityUserTokens  = "usertokens"
 	EntityMsSuppliers = "mssuppliers"
 	EntityMsItems     = "msitems"
+	EntityMsPo        = "mspo"
 )
