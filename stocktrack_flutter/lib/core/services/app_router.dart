@@ -1,9 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stocktrack_flutter/core/common/views/error_page.dart';
 import 'package:stocktrack_flutter/core/common/views/underconstruction_page.dart';
 import 'package:stocktrack_flutter/core/services/injection_container.dart';
 import 'package:stocktrack_flutter/core/utils/route_utils.dart';
+import 'package:stocktrack_flutter/src/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:stocktrack_flutter/src/auth/presentation/bloc/auth_bloc.dart';
 import 'package:stocktrack_flutter/src/auth/presentation/views/sign_in_screen.dart';
 import 'package:stocktrack_flutter/src/dashboard/presentation/views/dashboard.dart';
@@ -44,10 +48,23 @@ class AppRouter {
     ],
     redirect: (context, state) {
       // TODO(kisahtegar): Need to implement this.
-      final signInLocation = state.namedLocation(AppPage.signIn.toName);
-      final dashboardLocation = state.namedLocation(AppPage.dashboard.toName);
-      final underConstructionLocation =
-          state.namedLocation(AppPage.underConstruction.toName);
+      debugPrint('AppRouter: Redirect...');
+
+      final prefs = sl<SharedPreferences>();
+      final token = prefs.getString(kUserTokenKey);
+
+      if (token != null) {
+        if (JwtDecoder.isExpired(token)) {
+          debugPrint('AppRouter: Token is expired.');
+          return AppPage.signIn.toPath;
+        } else {
+          debugPrint('AppRouter: Navigated to /dashboard');
+          return AppPage.dashboard.toPath;
+        }
+      } else {
+        // Doing nothing.
+        return null;
+      }
     },
   );
 }
