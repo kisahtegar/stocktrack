@@ -34,12 +34,6 @@ class _SignInScreenState extends State<SignInScreen> {
   final formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    super.initState();
-    debugPrint('SignInScreen: Initialize state.');
-  }
-
-  @override
   void dispose() {
     usernameController.dispose();
     passwordController.dispose();

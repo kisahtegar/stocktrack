@@ -24,6 +24,7 @@ dependencies:
   lottie: ^2.6.0
   provider: ^6.0.5
   shared_preferences: ^2.2.2
+  sidebarx: ^0.16.3
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -35,6 +36,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/lottie/
+    - assets/images/
   fonts:
     - family: Aeonik
       fonts:

@@ -47,7 +47,6 @@ class AppRouter {
       ),
     ],
     redirect: (context, state) {
-      // TODO(kisahtegar): Need to implement this.
       debugPrint('AppRouter: Redirect...');
 
       final prefs = sl<SharedPreferences>();
