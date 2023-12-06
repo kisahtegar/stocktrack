@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:stocktrack_flutter/src/auth/presentation/cubit/auth_cubit.dart';
-// import 'package:stocktrack_flutter/src/auth/presentation/views/sign_in_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:sidebarx/sidebarx.dart';
+import 'package:stocktrack_flutter/src/dashboard/presentation/providers/dashboard_controller.dart';
+import 'package:stocktrack_flutter/src/dashboard/presentation/widgets/body_dashboard.dart';
+import 'package:stocktrack_flutter/src/dashboard/presentation/widgets/sidebar_dashboard.dart';
 
+/// The main dashboard screen that displays a sidebar and the app's body.
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
@@ -17,23 +20,44 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     debugPrint('Dashboard: Build...');
-    return const Center(
-      child: Text('DASHBOARDD'),
+    return Consumer<DashboardController>(
+      // Listens for changes in the DashboardController. When the controller's
+      // state changes, it rebuilds its child widget with the updated data.
+      builder: (_, controller, __) {
+        return Scaffold(
+          body: Row(
+            children: [
+              // Sidebar Section.
+              SidebarDashboard(
+                controller: SidebarXController(
+                  selectedIndex: controller.currentIndex,
+                  extended: true,
+                ),
+                items: [
+                  SidebarXItem(
+                    icon: Icons.dashboard,
+                    label: 'Home',
+                    onTap: () => controller.changeIndex(0),
+                  ),
+                  SidebarXItem(
+                    icon: Icons.add_box,
+                    label: 'Item',
+                    onTap: () => controller.changeIndex(1),
+                  ),
+                ],
+              ),
+
+              // App Screen body.
+              Expanded(
+                child: BodyDashboard(
+                  index: controller.currentIndex,
+                  screens: controller.screens,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
-    // return BlocConsumer<AuthCubit, AuthState>(
-    //   listener: (context, state) {
-    //     debugPrint('Dashboard(listener): state is $state');
-    //     if (state is NotLoggedIn) {
-    //       // User logged out, navigate to the login screen.
-    //       Navigator.of(context).pushReplacementNamed(SignInScreen.routeName);
-    //     }
-    //   },
-    //   builder: (context, state) {
-    //     debugPrint('Dashboard(builder): state is $state');
-    //     return Center(
-    //       child: Text('DASHBOARD'),
-    //     );
-    //   },
-    // );
   }
 }

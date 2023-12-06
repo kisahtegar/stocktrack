@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:stocktrack_flutter/core/res/colours.dart';
 
-/// The `UnderConstructionPage` widget is used to display a "Under Construction
-/// Page" screen in your app. This screen is typically shown to inform users
-/// that a particular page or feature is not yet available or is currently in
-/// development.
-class UnderConstructionPage extends StatelessWidget {
-  const UnderConstructionPage({super.key});
+/// A widget representing a page not found error screen.
+class PageNotFound extends StatelessWidget {
+  /// Creates a [PageNotFound] widget.
+  ///
+  /// - [errorTitle] is the title to be displayed on the error screen. If null,
+  ///   a default '404 Page Not Found' is used.
+  /// - [errorDescription] is the description to be displayed on the error
+  ///   screen. If null, a default message is used.
+  const PageNotFound({this.errorTitle, this.errorDescription, super.key});
 
-  static const routeName = '/under-construction';
+  /// The title for the error screen.
+  final String? errorTitle;
+
+  /// The description for the error screen.
+  final String? errorDescription;
+
+  /// The route name for this screen.
+  static const routeName = '/error';
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +47,7 @@ class UnderConstructionPage extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
-                        Icons.construction,
+                        Icons.error,
                         color: Colours.greenColour,
                         size: 50,
                       ),
@@ -55,19 +65,21 @@ class UnderConstructionPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 25),
-          const Text(
-            'Under Construction',
+          Text(
+            errorTitle ?? '404\nPage Not Found',
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 10),
-          const Text(
-            'Our page is under construction, we still work on it.',
+          Text(
+            errorDescription ??
+                "The Page you are looking for doesn't exist or an other error "
+                    'occurred.',
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
               color: Colors.black54,

@@ -40,6 +40,7 @@ class AuthRemoteDataSrcImpl implements AuthRemoteDataSrc {
     required String username,
     required String password,
   }) async {
+    debugPrint('AuthRemoteDataSrc.signIn: Running...');
     try {
       final uri = Uri.http('127.0.0.1:8081', kSignInEndpoint);
 
@@ -53,13 +54,8 @@ class AuthRemoteDataSrcImpl implements AuthRemoteDataSrc {
           'Content-Type': 'application/json',
         },
       );
-      debugPrint('AuthRemoteDataSrcImpl(SignIn): here2');
-
-      debugPrint('AuthRemoteDataSrcImpl(SignIn): $response');
 
       if (response.statusCode != 200) {
-        print('Server Error: ${response.statusCode}');
-        print('Response Body: ${response.body}');
         throw ServerException(
           message: response.body,
           statusCode: response.statusCode.toString(),

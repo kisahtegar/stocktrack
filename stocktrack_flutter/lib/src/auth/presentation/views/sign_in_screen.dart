@@ -55,9 +55,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('SignInScreen: Build...');
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (_, state) {
+          debugPrint('SignInScreen.AuthState: $state');
           if (state is AuthError) {
             CoreUtils.showSnackBar(context, state.message);
           } else if (state is SignedIn) {
