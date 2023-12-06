@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:stocktrack_flutter/core/common/app/user_provider.dart';
 import 'package:stocktrack_flutter/core/services/app_router.dart';
 import 'package:stocktrack_flutter/core/services/injection_container.dart';
+import 'package:stocktrack_flutter/src/dashboard/presentation/providers/dashboard_controller.dart';
 
 Future<void> main() async {
   setUrlStrategy(PathUrlStrategy());
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
       providers: [
         // Provide the UserProvider for managing user-related data.
         ChangeNotifierProvider(create: (_) => UserProvider()),
+
+        // Provide the DashboardController for controlling dashboard state.
+        ChangeNotifierProvider(create: (_) => DashboardController()),
       ],
       child: MaterialApp.router(
         title: 'StockTrack',
