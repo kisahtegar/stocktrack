@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:stocktrack_flutter/core/res/colours.dart';
 
+/// Sidebar widget for the Dashboard screen.
 class SidebarDashboard extends StatelessWidget {
   const SidebarDashboard({
     required SidebarXController controller,
@@ -10,7 +11,10 @@ class SidebarDashboard extends StatelessWidget {
   })  : _controller = controller,
         _items = items;
 
+  /// Controller for managing the state of the sidebar.
   final SidebarXController _controller;
+
+  /// List of items to be displayed in the sidebar.
   final List<SidebarXItem> _items;
 
   @override

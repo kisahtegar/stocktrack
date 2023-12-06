@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stocktrack_flutter/core/res/colours.dart';
 
+/// The body of the Dashboard screen that holds the app bar and displays the
+/// selected screen based on the current index.
 class BodyDashboard extends StatelessWidget {
   const BodyDashboard({
     required int index,
@@ -9,7 +11,10 @@ class BodyDashboard extends StatelessWidget {
   })  : _index = index,
         _screens = screens;
 
+  /// The current index representing the selected screen.
   final int _index;
+
+  /// List of screens to be displayed in the dashboard.
   final List<Widget> _screens;
 
   @override

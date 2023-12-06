@@ -5,6 +5,7 @@ import 'package:stocktrack_flutter/src/dashboard/presentation/providers/dashboar
 import 'package:stocktrack_flutter/src/dashboard/presentation/widgets/body_dashboard.dart';
 import 'package:stocktrack_flutter/src/dashboard/presentation/widgets/sidebar_dashboard.dart';
 
+/// The main dashboard screen that displays a sidebar and the app's body.
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
