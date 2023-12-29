@@ -10,8 +10,9 @@ class Colours {
     Color(0xFFFF9800), // Orange
   ];
 
+  // Global colors
+  static const textColour = Color.fromARGB(255, 31, 83, 32);
   static const primaryColour = Color(0xFF4CAF50);
-
   static const greenColour = Color.fromARGB(255, 31, 86, 32);
 
   // Dashboard Sidebar colors

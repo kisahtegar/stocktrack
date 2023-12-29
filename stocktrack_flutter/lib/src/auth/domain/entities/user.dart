@@ -11,11 +11,6 @@ class UserLoginRequest extends Equatable {
     required this.password,
   });
 
-  /// Creates an empty `UserLoginRequest` with blank `username` and `password`.
-  const UserLoginRequest.empty()
-      : username = '',
-        password = '';
-
   /// The username used for authentication.
   final String username;
 
@@ -27,13 +22,6 @@ class UserLoginRequest extends Equatable {
   /// instances.
   @override
   List<Object?> get props => [username, password];
-
-  /// Overrides the `toString()` method to provide a human-readable
-  /// representation of the `UserLoginRequest` instance.
-  @override
-  String toString() {
-    return 'UserLoginRequest{username: $username, password: $password}';
-  }
 }
 
 /// Represents the complete response structure after a successful login.

@@ -25,7 +25,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     final result = await _signIn(
-      SignInParams(username: event.username, password: event.password),
+      UserLoginRequest(
+        username: event.username,
+        password: event.password,
+      ),
     );
     result.fold(
       (failure) => emit(AuthError(failure.errorMessage)),

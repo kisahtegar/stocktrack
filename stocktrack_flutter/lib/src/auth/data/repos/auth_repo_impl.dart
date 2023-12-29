@@ -12,15 +12,11 @@ class AuthRepoImpl implements AuthRepo {
   final AuthRemoteDataSrc _remoteDataSource;
 
   @override
-  ResultFuture<UserLoginResponse> signIn({
-    required String username,
-    required String password,
-  }) async {
+  ResultFuture<UserLoginResponse> signIn(
+    UserLoginRequest userLoginRequest,
+  ) async {
     try {
-      final result = await _remoteDataSource.signIn(
-        username: username,
-        password: password,
-      );
+      final result = await _remoteDataSource.signIn(userLoginRequest);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));

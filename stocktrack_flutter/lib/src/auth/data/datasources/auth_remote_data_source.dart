@@ -3,71 +3,58 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stocktrack_flutter/core/errors/exceptions.dart';
-// import 'package:stocktrack_flutter/core/utils/constants.dart';
+import 'package:stocktrack_flutter/core/res/constant.dart';
+import 'package:stocktrack_flutter/core/services/injection_container.dart';
+import 'package:stocktrack_flutter/core/services/storage_service.dart';
+import 'package:stocktrack_flutter/core/utils/http_util.dart';
 import 'package:stocktrack_flutter/core/utils/typedefs.dart';
 import 'package:stocktrack_flutter/src/auth/data/models/user_model.dart';
-
-// Endpoint
-const kSignInEndpoint = '/api/v1/user/login';
-
-// Shared preferences
-const kUserTokenKey = 'user_token_key';
+import 'package:stocktrack_flutter/src/auth/domain/entities/user.dart';
 
 abstract class AuthRemoteDataSrc {
   const AuthRemoteDataSrc();
 
-  Future<UserLoginResponseModel> signIn({
-    required String username,
-    required String password,
-  });
+  Future<UserLoginResponseModel> signIn(
+    UserLoginRequest userLoginRequest,
+  );
 }
 
 class AuthRemoteDataSrcImpl implements AuthRemoteDataSrc {
-  const AuthRemoteDataSrcImpl({
-    required http.Client client,
-    required SharedPreferences sharedPreferences,
-  })  : _client = client,
-        _sharedPreferences = sharedPreferences;
-
-  final http.Client _client;
-  final SharedPreferences _sharedPreferences;
+  const AuthRemoteDataSrcImpl();
 
   @override
-  Future<UserLoginResponseModel> signIn({
-    required String username,
-    required String password,
-  }) async {
-    debugPrint('AuthRemoteDataSrc.signIn: Running...');
+  Future<UserLoginResponseModel> signIn(
+    UserLoginRequest userLoginRequest,
+  ) async {
     try {
-      final uri = Uri.http('127.0.0.1:8081', kSignInEndpoint);
+      debugPrint('AuthRemoteDataSrc.signIn: Running...');
+      // Access the custom Dio instance from HttpUtil
+      final dio = sl<HttpUtil>();
 
-      final response = await _client.post(
-        uri,
-        body: jsonEncode({
-          'username': username,
-          'password': password,
+      final response = await dio.post(
+        AppConstants.SIGNIN_ENDPOINT,
+        data: jsonEncode({
+          'username': userLoginRequest.username,
+          'password': userLoginRequest.password,
         }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
       );
 
-      if (response.statusCode != 200) {
+      final userLoginResponse = UserLoginResponseModel.fromJson(
+        jsonDecode(response.toString()) as DataMap,
+      );
+
+      debugPrint('AuthRemoteDataSrc.signIn: response($response)');
+
+      if (userLoginResponse.code != '2000200') {
         throw ServerException(
-          message: response.body,
-          statusCode: response.statusCode.toString(),
+          message: userLoginResponse.data.toString(),
+          statusCode: userLoginResponse.code,
         );
       }
 
-      final responseData = jsonDecode(response.body) as DataMap;
-      final userLoginResponse = UserLoginResponseModel.fromJson(responseData);
-
-      // Save the user token to shared preferences
-      await _sharedPreferences.setString(
-        kUserTokenKey,
+      await sl<StorageService>().setString(
+        AppConstants.STORAGE_USER_TOKEN_KEY,
         userLoginResponse.data!.token,
       );
 

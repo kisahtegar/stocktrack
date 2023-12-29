@@ -41,8 +41,13 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   SidebarXItem(
                     icon: Icons.add_box,
-                    label: 'Item',
+                    label: 'Supplier',
                     onTap: () => controller.changeIndex(1),
+                  ),
+                  SidebarXItem(
+                    icon: Icons.add_box,
+                    label: 'Item',
+                    onTap: () => controller.changeIndex(2),
                   ),
                 ],
               ),

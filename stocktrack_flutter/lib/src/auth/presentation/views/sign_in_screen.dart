@@ -92,11 +92,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         'Login',
-                        style: TextStyle(
-                          fontFamily: Fonts.aeonik,
-                          fontWeight: FontWeight.w700,
+                        style: OpenSans.bold.copyWith(
                           fontSize: 25,
                           color: Colors.black,
                           decoration: TextDecoration.none,

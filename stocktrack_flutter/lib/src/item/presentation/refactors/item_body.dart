@@ -5,8 +5,13 @@ class ItemBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Item View'),
-    );
+    return Center();
+
+    // return PaginatedDataTable(
+    //   columns: [],
+    //   source: [
+    //     DataTableSource(),
+    //   ],
+    // );
   }
 }
