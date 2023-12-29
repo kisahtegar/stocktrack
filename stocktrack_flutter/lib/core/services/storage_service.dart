@@ -2,7 +2,7 @@
 
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stocktrack_flutter/core/res/constant.dart';
+import 'package:stocktrack_flutter/core/res/app_constants.dart';
 
 /// A service for managing data storage using `SharedPreferences`.
 class StorageService {
@@ -36,6 +36,11 @@ class StorageService {
     return _prefs.remove(key);
   }
 
+  /// Clears all data stored in SharedPreferences.
+  Future<void> clearAll() async {
+    await _prefs.clear();
+  }
+
   /// Checks if a user is logged in.
   bool getIsLoggedIn() {
     return _prefs.getString(AppConstants.STORAGE_USER_TOKEN_KEY) != null;
@@ -46,6 +51,7 @@ class StorageService {
     return _prefs.getString(AppConstants.STORAGE_USER_TOKEN_KEY) ?? '';
   }
 
+  /// Checks if the user authentication token is expired.
   bool getIsTokenExpired() {
     final token = _prefs.getString(AppConstants.STORAGE_USER_TOKEN_KEY) ?? '';
     if (token.isNotEmpty) {

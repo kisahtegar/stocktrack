@@ -91,7 +91,8 @@ type (
 // Generates a successful JSON response with data.
 func NewResponseSuccess(c *gin.Context, result interface{}, message, serviceCode, responseCode string) {
 	c.JSON(http.StatusOK, jsonResponse{
-		Code:    "200" + serviceCode + responseCode,
+		Code: "200",
+		// Code:    "200" + serviceCode + responseCode,
 		Message: message,
 		Data:    result,
 	})
@@ -100,7 +101,8 @@ func NewResponseSuccess(c *gin.Context, result interface{}, message, serviceCode
 // Generates a JSON response for bad requests with validation errors.
 func NewResponseBadRequest(c *gin.Context, validationField []ValidationField, message, serviceCode, errorCode string) {
 	c.JSON(http.StatusBadRequest, jsonBadRequestResponse{
-		Code:             "400" + serviceCode + errorCode,
+		Code: "400",
+		// Code:             "400" + serviceCode + errorCode,
 		Message:          message,
 		ErrorDescription: validationField,
 	})
@@ -109,7 +111,8 @@ func NewResponseBadRequest(c *gin.Context, validationField []ValidationField, me
 // Generates a JSON response for internal server errors.
 func NewResponseError(c *gin.Context, err, serviceCode, errorCode string) {
 	c.JSON(http.StatusInternalServerError, jsonErrorResponse{
-		Code:    "500" + serviceCode + errorCode,
+		Code: "500",
+		// Code:    "500" + serviceCode + errorCode,
 		Message: "internal server error",
 		Error:   err,
 	})
@@ -118,7 +121,8 @@ func NewResponseError(c *gin.Context, err, serviceCode, errorCode string) {
 // Generates a JSON response for unauthorized access.
 func NewResponseUnauthorized(c *gin.Context, message, serviceCode, errorCode string) {
 	c.JSON(http.StatusUnauthorized, jsonResponse{
-		Code:    "401" + serviceCode + errorCode,
+		Code: "401",
+		// Code:    "401" + serviceCode + errorCode,
 		Message: message,
 	})
 }
@@ -126,7 +130,8 @@ func NewResponseUnauthorized(c *gin.Context, message, serviceCode, errorCode str
 // Generates a JSON response with pagination data.
 func NewResponsePagination(c *gin.Context, result interface{}, message, serviceCode, responseCode string, paginationData *PaginationResponse) {
 	c.JSON(http.StatusOK, JsonPaginationResponse{
-		Code:           "200" + serviceCode + responseCode,
+		Code: "200",
+		// Code:           "200" + serviceCode + responseCode,
 		Message:        message,
 		Data:           result,
 		PaginationData: *paginationData,

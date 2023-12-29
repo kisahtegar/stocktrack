@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show debugPrint;
-import 'package:stocktrack_flutter/core/res/constant.dart';
+import 'package:stocktrack_flutter/core/res/app_constants.dart';
 import 'package:stocktrack_flutter/core/services/injection_container.dart';
 import 'package:stocktrack_flutter/core/services/storage_service.dart';
 
@@ -41,6 +41,7 @@ class HttpUtil {
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
+    debugPrint('HttpUtil.post: Starting...');
     final requestOptions = options ?? Options();
 
     // If headers are not provided, initialize an empty map.
@@ -61,9 +62,7 @@ class HttpUtil {
       options: requestOptions,
     );
 
-    // Debug print status code and response data.
-    debugPrint('HTTP Status Code: ${response.statusCode}');
-    debugPrint('Response Data: $response');
+    debugPrint('HttpUtil.post: Response($response)');
 
     // Return the actual data received from the backend.
     return response;
