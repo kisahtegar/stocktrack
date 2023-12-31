@@ -1,3 +1,5 @@
+// ignore_for_file: inference_failure_on_function_invocation
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:stocktrack_flutter/core/res/app_constants.dart';
@@ -54,7 +56,6 @@ class HttpUtil {
     }
 
     // Send the POST request to the server.
-    // ignore: inference_failure_on_function_invocation
     final response = await dio.post(
       path,
       data: data,
@@ -63,6 +64,120 @@ class HttpUtil {
     );
 
     debugPrint('HttpUtil.post: Response($response)');
+
+    // Return the actual data received from the backend.
+    return response;
+  }
+
+  /// Sends an HTTP GET request to the server.
+  ///
+  /// - [path] - The API endpoint path.
+  /// - [data] - The request body data.
+  /// - [queryParameters] - Query parameters to be included in the request.
+  /// - [options] - Additional options for the request.
+  Future<dynamic> get(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    debugPrint('HttpUtil.get: Starting...');
+    final requestOptions = options ?? Options();
+
+    // If headers are not provided, initialize an empty map.
+    requestOptions.headers = requestOptions.headers ?? {};
+
+    // Add authorization header if available.
+    final authorization = getAuthorizationHeader();
+    if (authorization != null) {
+      requestOptions.headers!.addAll(authorization);
+    }
+
+    // Send the GET request to the server.
+    final response = await dio.get(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: requestOptions,
+    );
+
+    debugPrint('HttpUtil.get: Response($response)');
+
+    // Return the actual data received from the backend.
+    return response;
+  }
+
+  /// Sends an HTTP DELETE request to the server.
+  ///
+  /// - [path] - The API endpoint path.
+  /// - [data] - The request body data.
+  /// - [queryParameters] - Query parameters to be included in the request.
+  /// - [options] - Additional options for the request.
+  Future<dynamic> delete(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    debugPrint('HttpUtil.delete: Starting...');
+    final requestOptions = options ?? Options();
+
+    // If headers are not provided, initialize an empty map.
+    requestOptions.headers = requestOptions.headers ?? {};
+
+    // Add authorization header if available.
+    final authorization = getAuthorizationHeader();
+    if (authorization != null) {
+      requestOptions.headers!.addAll(authorization);
+    }
+
+    // Send the DELETE request to the server.
+    final response = await dio.delete(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: requestOptions,
+    );
+
+    debugPrint('HttpUtil.delete: Response($response)');
+
+    // Return the actual data received from the backend.
+    return response;
+  }
+
+  /// Sends an HTTP UPDATE request to the server.
+  ///
+  /// - [path] - The API endpoint path.
+  /// - [data] - The request body data.
+  /// - [queryParameters] - Query parameters to be included in the request.
+  /// - [options] - Additional options for the request.
+  Future<dynamic> update(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    debugPrint('HttpUtil.update: Starting...');
+    final requestOptions = options ?? Options();
+
+    // If headers are not provided, initialize an empty map.
+    requestOptions.headers = requestOptions.headers ?? {};
+
+    // Add authorization header if available.
+    final authorization = getAuthorizationHeader();
+    if (authorization != null) {
+      requestOptions.headers!.addAll(authorization);
+    }
+
+    // Send the UPDATE request to the server.
+    final response = await dio.put(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: requestOptions,
+    );
+
+    debugPrint('HttpUtil.update: Response($response)');
 
     // Return the actual data received from the backend.
     return response;

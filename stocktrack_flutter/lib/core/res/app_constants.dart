@@ -11,6 +11,9 @@ class AppConstants {
   /// The endpoint for the user sign-in API.
   static const String SIGNIN_ENDPOINT = '/api/v1/user/login';
 
+  /// The endpoint for the get suppliers API.
+  static const String GET_SUPPLIERS_ENDPOINT = '/api/v1/supplier';
+
   /// The storage key for the user token.
   static const String STORAGE_USER_TOKEN_KEY = 'user_token_key';
 }

@@ -1,7 +1,6 @@
 import 'package:stocktrack_flutter/core/usecases/usecases.dart';
 import 'package:stocktrack_flutter/core/utils/typedefs.dart';
-import 'package:stocktrack_flutter/src/supplier/domain/entities/supplier_request.dart';
-import 'package:stocktrack_flutter/src/supplier/domain/entities/supplier_response.dart';
+import 'package:stocktrack_flutter/src/supplier/domain/entities/supplier_entity.dart';
 import 'package:stocktrack_flutter/src/supplier/domain/repos/supplier_repo.dart';
 
 /// Represents a use case for deleting a supplier.

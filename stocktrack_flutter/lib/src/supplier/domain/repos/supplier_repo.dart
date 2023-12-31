@@ -1,6 +1,5 @@
 import 'package:stocktrack_flutter/core/utils/typedefs.dart';
-import 'package:stocktrack_flutter/src/supplier/domain/entities/supplier_request.dart';
-import 'package:stocktrack_flutter/src/supplier/domain/entities/supplier_response.dart';
+import 'package:stocktrack_flutter/src/supplier/domain/entities/supplier_entity.dart';
 
 /// Abstract class defining the contract for interacting with supplier data.
 abstract class SupplierRepo {
