@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:stocktrack_flutter/core/utils/typedefs.dart';
-import 'package:stocktrack_flutter/src/supplier/data/models/supplier_item_model.dart';
+import 'package:stocktrack_flutter/src/supplier/data/models/supplier_model.dart';
 import 'package:stocktrack_flutter/src/supplier/domain/entities/supplier_entity.dart';
 
 /// Represent a concrete implementation of [SupplierDetailResponse] with

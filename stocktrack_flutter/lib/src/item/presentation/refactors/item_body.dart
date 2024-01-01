@@ -5,7 +5,7 @@ class ItemBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center();
+    return const Center();
 
     // return PaginatedDataTable(
     //   columns: [],
