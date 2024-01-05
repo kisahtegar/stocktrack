@@ -1,9 +1,12 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:stocktrack_flutter/core/common/app/tab_navigator.dart';
 import 'package:stocktrack_flutter/core/common/views/presistent_view.dart';
+import 'package:stocktrack_flutter/core/services/injection_container.dart';
 import 'package:stocktrack_flutter/src/home/presentation/views/home_view.dart';
 import 'package:stocktrack_flutter/src/item/presentation/views/item_view.dart';
+import 'package:stocktrack_flutter/src/supplier/presentation/app/cubit/supplier_cubit.dart';
 import 'package:stocktrack_flutter/src/supplier/presentation/views/supplier_view.dart';
 
 /// `DashboardController` is responsible for managing the state and navigation
@@ -30,7 +33,14 @@ class DashboardController extends ChangeNotifier {
 
     // Supplier View
     ChangeNotifierProvider(
-      create: (_) => TabNavigator(TabItem(child: const SupplierView())),
+      create: (_) => TabNavigator(
+        TabItem(
+          child: BlocProvider(
+            create: (context) => sl<SupplierCubit>(),
+            child: const SupplierView(),
+          ),
+        ),
+      ),
       child: const PersistentView(),
     ),
 

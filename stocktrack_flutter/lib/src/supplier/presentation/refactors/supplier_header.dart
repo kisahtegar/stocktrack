@@ -8,7 +8,7 @@ class SupplierHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'List of Supplier',
+      'Supplier',
       style: OpenSans.bold.copyWith(
         fontSize: 32,
         color: Colours.textColour,

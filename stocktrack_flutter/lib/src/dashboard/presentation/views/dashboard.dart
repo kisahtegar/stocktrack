@@ -40,7 +40,7 @@ class _DashboardState extends State<Dashboard> {
                     onTap: () => controller.changeIndex(0),
                   ),
                   SidebarXItem(
-                    icon: Icons.add_box,
+                    icon: Icons.person_2_rounded,
                     label: 'Supplier',
                     onTap: () => controller.changeIndex(1),
                   ),

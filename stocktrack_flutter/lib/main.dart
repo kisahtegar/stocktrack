@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:provider/provider.dart';
 import 'package:stocktrack_flutter/core/common/app/user_provider.dart';
+import 'package:stocktrack_flutter/core/res/colours.dart';
 import 'package:stocktrack_flutter/core/services/app_router.dart';
 import 'package:stocktrack_flutter/core/services/injection_container.dart';
 import 'package:stocktrack_flutter/src/dashboard/presentation/providers/dashboard_controller.dart';
@@ -32,6 +33,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'StockTrack',
         theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.transparent,
+          ),
+          scaffoldBackgroundColor: Colours.canvasSidebarColour,
+          // cardColor: Colors.green.shade400,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade400),
           useMaterial3: true,
           visualDensity: VisualDensity.adaptivePlatformDensity,

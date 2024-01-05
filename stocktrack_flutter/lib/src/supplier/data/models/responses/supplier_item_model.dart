@@ -12,7 +12,7 @@ class SupplierItemModel extends SupplierItem {
     super.supplierName,
     super.address,
     super.contact,
-    super.isActive,
+    super.isActive = 1,
   });
 
   /// Creates an empty [SupplierItemModel] instance with default
@@ -35,7 +35,7 @@ class SupplierItemModel extends SupplierItem {
           supplierName: map['supplier_name'] as String,
           address: map['address'] as String,
           contact: map['contact'] as String,
-          isActive: map['isActive'] as int,
+          isActive: map['isActive'] as int?,
         );
 
   /// Create a new instance of [SupplierItemModel] with optional

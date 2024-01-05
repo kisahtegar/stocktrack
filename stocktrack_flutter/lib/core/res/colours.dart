@@ -16,7 +16,7 @@ class Colours {
   static const greenColour = Color.fromARGB(255, 31, 86, 32);
 
   // Dashboard Sidebar colors
-  static const canvasSidebarColour = Color.fromARGB(81, 216, 255, 221);
+  static const canvasSidebarColour = Color.fromARGB(62, 216, 255, 221);
   static const selectedItemSidebarColour = Color.fromARGB(213, 216, 255, 221);
   static const selectedTextSidebarColour = Color.fromARGB(255, 31, 86, 32);
   static Color unSelectedTextSidebarColour =

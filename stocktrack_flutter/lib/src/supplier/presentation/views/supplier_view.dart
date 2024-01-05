@@ -10,6 +10,7 @@ class SupplierView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         body: ListView(
           children: const [
             SupplierHeader(),

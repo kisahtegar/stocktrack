@@ -45,7 +45,8 @@ class SupplierListResponseModel extends SupplierListResponse {
                     (x) => SupplierItemModel.fromMap(x as DataMap),
                   ),
                 ),
-          paginationData: PaginationDataModel.fromMap(map['data'] as DataMap),
+          paginationData:
+              PaginationDataModel.fromMap(map['pagination_data'] as DataMap),
         );
 
   /// Create a new instance of [SupplierListResponseModel] with optional

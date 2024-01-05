@@ -58,7 +58,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
     SupplierCreateRequest supplierCreateRequest,
   ) async {
     try {
-      debugPrint('SupplierRemoteDataSrc.addSupplier: Running...');
+      debugPrint('\n---> SupplierRemoteDataSrc.addSupplier: Running...');
 
       final response = await sl<HttpUtil>().post(
         '${AppConstants.GET_SUPPLIERS_ENDPOINT}/create',
@@ -82,6 +82,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
         );
       }
 
+      debugPrint('---> SupplierRemoteDataSrc.addSupplier: End process.\n');
       return supplierCreateResponse;
     } on ServerException {
       // Rethrow ServerException to propagate the error
@@ -105,7 +106,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
     SupplierDeleteRequest supplierDeleteRequest,
   ) async {
     try {
-      debugPrint('SupplierRemoteDataSrc.getDetailSupplier: Running...');
+      debugPrint('\n---> SupplierRemoteDataSrc.deleteSupplier: Running...');
 
       final response = await sl<HttpUtil>().delete(
         '${AppConstants.GET_SUPPLIERS_ENDPOINT}/delete/${supplierDeleteRequest.supplierCode}',
@@ -121,7 +122,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
           statusCode: supplierDeleteResponse.code ?? '501',
         );
       }
-
+      debugPrint('---> SupplierRemoteDataSrc.deleteSupplier: End process.\n');
       return supplierDeleteResponse;
     } on ServerException {
       // Rethrow ServerException to propagate the error
@@ -145,7 +146,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
     SupplierDetailRequest supplierDetailRequest,
   ) async {
     try {
-      debugPrint('SupplierRemoteDataSrc.getDetailSupplier: Running...');
+      debugPrint('\n---> SupplierRemoteDataSrc.getDetailSupplier: Running...');
 
       final response = await sl<HttpUtil>().get(
         '${AppConstants.GET_SUPPLIERS_ENDPOINT}/${supplierDetailRequest.supplierCode}',
@@ -162,6 +163,9 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
         );
       }
 
+      debugPrint(
+        '---> SupplierRemoteDataSrc.getDetailSupplier: End process.\n',
+      );
       return supplierDetailResponse;
     } on ServerException {
       // Rethrow ServerException to propagate the error
@@ -185,7 +189,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
     SupplierListRequest supplierListRequest,
   ) async {
     try {
-      debugPrint('SupplierRemoteDataSrc.getSuppliers: Running...');
+      debugPrint('\n---> SupplierRemoteDataSrc.getSuppliers: Running...');
 
       final response = await sl<HttpUtil>().get(
         AppConstants.GET_SUPPLIERS_ENDPOINT,
@@ -207,6 +211,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
         );
       }
 
+      debugPrint('---> SupplierRemoteDataSrc.getSuppliers: End process.\n');
       return supplierListResponse;
     } on ServerException {
       // Rethrow ServerException to propagate the error
@@ -220,7 +225,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
       // Handle other exceptions and wrap them in a ServerException
       throw ServerException(
         message: e.toString(),
-        statusCode: '500',
+        statusCode: '502',
       );
     }
   }
@@ -230,7 +235,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
     SupplierUpdateRequest supplierUpdateRequest,
   ) async {
     try {
-      debugPrint('SupplierRemoteDataSrc.updateSupplier: Running...');
+      debugPrint('\n---> SupplierRemoteDataSrc.updateSupplier: Running...');
 
       final response = await sl<HttpUtil>().update(
         '${AppConstants.GET_SUPPLIERS_ENDPOINT}/update',
@@ -255,6 +260,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
         );
       }
 
+      debugPrint('---> SupplierRemoteDataSrc.updateSupplier: End process.\n');
       return supplierUpdateResponse;
     } on ServerException {
       // Rethrow ServerException to propagate the error
