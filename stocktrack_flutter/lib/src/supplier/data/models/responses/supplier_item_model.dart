@@ -35,7 +35,7 @@ class SupplierItemModel extends SupplierItem {
           supplierName: map['supplier_name'] as String,
           address: map['address'] as String,
           contact: map['contact'] as String,
-          isActive: map['isActive'] as int?,
+          isActive: map['is_active'] as int?,
         );
 
   /// Create a new instance of [SupplierItemModel] with optional
