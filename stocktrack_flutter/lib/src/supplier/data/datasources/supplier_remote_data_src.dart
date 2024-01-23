@@ -77,7 +77,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
 
       if (supplierCreateResponse.code != '200') {
         throw ServerException(
-          message: supplierCreateResponse.message ?? 'Something error',
+          message: supplierCreateResponse.message.toString(),
           statusCode: supplierCreateResponse.code ?? '501',
         );
       }
@@ -96,7 +96,7 @@ class SupplierRemoteDataSrcImpl implements SupplierRemoteDataSrc {
       // Handle other exceptions and wrap them in a ServerException
       throw ServerException(
         message: e.toString(),
-        statusCode: '500',
+        statusCode: '502',
       );
     }
   }

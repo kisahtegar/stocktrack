@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:stocktrack_flutter/src/supplier/domain/entities/supplier_entity.dart';
 import 'package:stocktrack_flutter/src/supplier/domain/usecases/add_supplier.dart';
 import 'package:stocktrack_flutter/src/supplier/domain/usecases/delete_supplier.dart';

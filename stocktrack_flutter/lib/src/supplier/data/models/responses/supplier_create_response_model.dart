@@ -33,7 +33,7 @@ class SupplierCreateResponseModel extends SupplierCreateResponse {
       : super(
           code: map['code'] as String,
           message: map['message'] as String,
-          error: map['error'] as String,
+          error: map['error'] as String?,
         );
 
   /// Create a new instance of [SupplierCreateResponseModel] with optional
