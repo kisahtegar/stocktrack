@@ -37,6 +37,13 @@ class _SupplierBodyState extends State<SupplierBody> {
         .updateSupplier(request ?? const SupplierUpdateRequest());
   }
 
+  // This could navigate to a detailed view or show a dialog with details
+  void _getDetailSupplier({SupplierDetailRequest? request}) {
+    context
+        .read<SupplierCubit>()
+        .getDetailSupplier(request ?? const SupplierDetailRequest());
+  }
+
   /// Widget that display dialog article.
   Future<void> _showSupplierItemDialog({SupplierItem? supplierItem}) async {
     final supplierCodeController = TextEditingController();
@@ -236,6 +243,33 @@ class _SupplierBodyState extends State<SupplierBody> {
           );
           // Fetch suppliers again after adding a new one.
           _getSuppliers();
+        } else if (state is SupplierDetailLoaded) {
+          debugPrint(
+            // ignore: lines_longer_than_80_chars
+            'SupplierBody: SupplierAdded{${state.supplierDetailResponse.message}}',
+          );
+
+          final response = state.supplierDetailResponse.data;
+
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Supplier Details'),
+              content: Text('Supplier Code: ${response!.supplierCode}\n'
+                  'Supplier Name: ${response.supplierName}\n'
+                  'Address: ${response.address}\n'
+                  'Contact: ${response.contact}\n'
+                  'IsActive: ${response.isActive}'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+          );
+          // Fetch suppliers again after adding a new one.
+          _getSuppliers();
         }
       },
       builder: (context, state) {
@@ -284,8 +318,12 @@ class _SupplierBodyState extends State<SupplierBody> {
                     DataColumn(label: Text('address')),
                     DataColumn(label: Text('Contact')),
                     DataColumn(label: Text('IsActive')),
+                    DataColumn(label: Text('Action')),
                   ],
-                  source: _SupplierDataSorce(data: suppliers ?? []),
+                  source: _SupplierDataSorce(
+                    data: suppliers ?? [],
+                    onView: (request) => _getDetailSupplier(request: request),
+                  ),
                 ),
               ),
             ],
@@ -298,9 +336,17 @@ class _SupplierBodyState extends State<SupplierBody> {
 }
 
 class _SupplierDataSorce extends DataTableSource {
-  _SupplierDataSorce({required this.data});
+  _SupplierDataSorce({
+    required this.data,
+    required this.onView,
+    // this.onEdit,
+    // this.onDelete,
+  });
 
   final List<SupplierItem> data;
+  final Function(SupplierDetailRequest) onView;
+  // final Function(SupplierItem) onEdit;
+  // final Function(SupplierItem) onDelete;
 
   @override
   DataRow? getRow(int index) {
@@ -335,6 +381,46 @@ class _SupplierDataSorce extends DataTableSource {
                 ),
               ),
             ),
+          ),
+        ),
+        DataCell(
+          PopupMenuButton<String>(
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'view',
+                child: ListTile(
+                  leading: Icon(Icons.visibility),
+                  title: Text('View'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'edit',
+                child: ListTile(
+                  leading: Icon(Icons.edit),
+                  title: Text('Edit'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'delete',
+                child: ListTile(
+                  leading: Icon(Icons.delete),
+                  title: Text('Delete'),
+                ),
+              ),
+            ],
+            onSelected: (String value) {
+              // Handle the selected action
+              switch (value) {
+                case 'view':
+                  onView(
+                    SupplierDetailRequest(supplierCode: item.supplierCode),
+                  );
+                case 'edit':
+                // _handleEditAction(item);
+                case 'delete':
+                // _handleDeleteAction(item);
+              }
+            },
           ),
         ),
       ],
