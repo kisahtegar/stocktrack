@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stocktrack_flutter/core/common/views/loading_view.dart';
@@ -18,23 +20,12 @@ class SupplierBody extends StatefulWidget {
 
 class _SupplierBodyState extends State<SupplierBody> {
   final int _pageSize = 10;
+  SupplierItem? _detailedSupplier;
 
   void _getSuppliers({SupplierListRequest? request}) {
     context
         .read<SupplierCubit>()
         .getSuppliers(request ?? const SupplierListRequest());
-  }
-
-  void _addSupplier({SupplierCreateRequest? request}) {
-    context
-        .read<SupplierCubit>()
-        .addSupplier(request ?? const SupplierCreateRequest());
-  }
-
-  void _updateSupplier({SupplierUpdateRequest? request}) {
-    context
-        .read<SupplierCubit>()
-        .updateSupplier(request ?? const SupplierUpdateRequest());
   }
 
   // This could navigate to a detailed view or show a dialog with details
@@ -45,7 +36,7 @@ class _SupplierBodyState extends State<SupplierBody> {
   }
 
   /// Widget that display dialog article.
-  Future<void> _showSupplierItemDialog({SupplierItem? supplierItem}) async {
+  Future<void> _showAddOrUpdateSupplier({SupplierItem? supplierItem}) async {
     final supplierCodeController = TextEditingController();
     final supplierNameController = TextEditingController();
     final addressController = TextEditingController();
@@ -65,7 +56,7 @@ class _SupplierBodyState extends State<SupplierBody> {
     await showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (context) {
+      builder: (_) {
         return Dialog(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -120,40 +111,46 @@ class _SupplierBodyState extends State<SupplierBody> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
+                          int? isActive;
+
+                          // Try parsing the text to an integer
+                          final parsedValue = int.tryParse(
+                            isActiveController.text,
+                          );
+                          // Check if parsing was successful
+                          if (parsedValue != null) {
+                            // Assign the parsed value to isActive
+                            isActive = parsedValue;
+                          } else {
+                            debugPrint('Invalid integer value for isActive');
+                          }
+
                           if (supplierItem != null) {
-                            _updateSupplier(
-                              request: SupplierUpdateRequest(
-                                // TODO(kisahtegar): Need to use supplierId
-                                supplierCode: supplierCodeController.text,
-                                supplierName: supplierNameController.text,
-                                address: addressController.text,
-                                contact: contactController.text,
-                                isActive: isActiveController.text as int,
-                              ),
-                            );
+                            context.read<SupplierCubit>().updateSupplier(
+                                  SupplierUpdateRequest(
+                                    // TODO(kisahtegar): Need to use supplierId
+                                    supplierCode: supplierCodeController.text,
+                                    supplierName: supplierNameController.text,
+                                    address: addressController.text,
+                                    contact: contactController.text,
+                                    isActive: isActiveController.text as int,
+                                  ),
+                                );
+
                             Navigator.of(context).pop();
                           } else {
-                            int? isActive;
+                            // Call the cubit to addSupplier
+                            context.read<SupplierCubit>().addSupplier(
+                                  SupplierCreateRequest(
+                                    supplierCode: supplierCodeController.text,
+                                    supplierName: supplierNameController.text,
+                                    address: addressController.text,
+                                    contact: contactController.text,
+                                    isActive: isActive,
+                                  ),
+                                );
 
-                            // Try parsing the text to an integer
-                            final parsedValue =
-                                int.tryParse(isActiveController.text);
-                            // Check if parsing was successful
-                            if (parsedValue != null) {
-                              // Assign the parsed value to isActive
-                              isActive = parsedValue;
-                            } else {
-                              print('Invalid integer value for isActive');
-                            }
-                            _addSupplier(
-                              request: SupplierCreateRequest(
-                                supplierCode: supplierCodeController.text,
-                                supplierName: supplierNameController.text,
-                                address: addressController.text,
-                                contact: contactController.text,
-                                isActive: isActive,
-                              ),
-                            );
+                            // Pop widget form.
                             Navigator.of(context).pop();
                           }
                         },
@@ -179,6 +176,7 @@ class _SupplierBodyState extends State<SupplierBody> {
                         ),
                       ),
                     ),
+
                     const SizedBox(width: 10),
 
                     // Button: Cancel button.
@@ -218,6 +216,32 @@ class _SupplierBodyState extends State<SupplierBody> {
     );
   }
 
+  void _showDetailSupplier({SupplierItem? response}) {
+    setState(() {
+      _detailedSupplier = response;
+    });
+
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Supplier Details'),
+        content: Text(
+          'Supplier Code: ${_detailedSupplier?.supplierCode}\n'
+          'Supplier Name: ${_detailedSupplier?.supplierName}\n'
+          'Address: ${_detailedSupplier?.address}\n'
+          'Contact: ${_detailedSupplier?.contact}\n'
+          'IsActive: ${_detailedSupplier?.isActive}',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -234,7 +258,6 @@ class _SupplierBodyState extends State<SupplierBody> {
           CoreUtils.showSnackBar(context, state.message);
         } else if (state is SupplierAdded) {
           debugPrint(
-            // ignore: lines_longer_than_80_chars
             'SupplierBody: SupplierAdded{${state.supplierCreateResponse.message}}',
           );
           CoreUtils.showSnackBar(
@@ -245,30 +268,11 @@ class _SupplierBodyState extends State<SupplierBody> {
           _getSuppliers();
         } else if (state is SupplierDetailLoaded) {
           debugPrint(
-            // ignore: lines_longer_than_80_chars
-            'SupplierBody: SupplierAdded{${state.supplierDetailResponse.message}}',
+            'SupplierBody: SupplierDetailLoaded{${state.supplierDetailResponse.message}}',
           );
 
           final response = state.supplierDetailResponse.data;
-
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Supplier Details'),
-              content: Text('Supplier Code: ${response!.supplierCode}\n'
-                  'Supplier Name: ${response.supplierName}\n'
-                  'Address: ${response.address}\n'
-                  'Contact: ${response.contact}\n'
-                  'IsActive: ${response.isActive}'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('OK'),
-                ),
-              ],
-            ),
-          );
-          // Fetch suppliers again after adding a new one.
+          _showDetailSupplier(response: response);
           _getSuppliers();
         }
       },
@@ -295,7 +299,7 @@ class _SupplierBodyState extends State<SupplierBody> {
                     label: 'Create',
                     minimumSize: const Size(10, 10),
                     buttonColour: Colours.greenColour,
-                    onPressed: _showSupplierItemDialog,
+                    onPressed: _showAddOrUpdateSupplier,
                   ),
                 ],
               ),
