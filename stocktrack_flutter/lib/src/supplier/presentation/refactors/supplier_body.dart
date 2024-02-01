@@ -35,6 +35,13 @@ class _SupplierBodyState extends State<SupplierBody> {
         .getDetailSupplier(request ?? const SupplierDetailRequest());
   }
 
+  // This could navigate to a detailed view or show a dialog with details
+  void _deleteSupplier({SupplierDeleteRequest? request}) {
+    context
+        .read<SupplierCubit>()
+        .deleteSupplier(request ?? const SupplierDeleteRequest());
+  }
+
   /// Widget that display dialog article.
   Future<void> _showAddOrUpdateSupplier({SupplierItem? supplierItem}) async {
     final supplierCodeController = TextEditingController();
@@ -256,6 +263,7 @@ class _SupplierBodyState extends State<SupplierBody> {
         if (state is SupplierError) {
           debugPrint('SupplierBody: SupplierError{${state.message}}');
           CoreUtils.showSnackBar(context, state.message);
+          _getSuppliers();
         } else if (state is SupplierAdded) {
           debugPrint(
             'SupplierBody: SupplierAdded{${state.supplierCreateResponse.message}}',
@@ -273,6 +281,16 @@ class _SupplierBodyState extends State<SupplierBody> {
 
           final response = state.supplierDetailResponse.data;
           _showDetailSupplier(response: response);
+          _getSuppliers();
+        } else if (state is SupplierDeleted) {
+          debugPrint(
+            'SupplierBody: SupplierAdded{${state.supplierDeleteResponse.message}}',
+          );
+          CoreUtils.showSnackBar(
+            context,
+            state.supplierDeleteResponse.message ?? 'Deleted',
+          );
+          // Fetch suppliers again after adding a new one.
           _getSuppliers();
         }
       },
@@ -327,6 +345,7 @@ class _SupplierBodyState extends State<SupplierBody> {
                   source: _SupplierDataSorce(
                     data: suppliers ?? [],
                     onView: (request) => _getDetailSupplier(request: request),
+                    onDelete: (request) => _deleteSupplier(request: request),
                   ),
                 ),
               ),
@@ -344,13 +363,13 @@ class _SupplierDataSorce extends DataTableSource {
     required this.data,
     required this.onView,
     // this.onEdit,
-    // this.onDelete,
+    required this.onDelete,
   });
 
   final List<SupplierItem> data;
-  final Function(SupplierDetailRequest) onView;
+  final void Function(SupplierDetailRequest) onView;
   // final Function(SupplierItem) onEdit;
-  // final Function(SupplierItem) onDelete;
+  final void Function(SupplierDeleteRequest) onDelete;
 
   @override
   DataRow? getRow(int index) {
@@ -422,7 +441,9 @@ class _SupplierDataSorce extends DataTableSource {
                 case 'edit':
                 // _handleEditAction(item);
                 case 'delete':
-                // _handleDeleteAction(item);
+                  onDelete(
+                    SupplierDeleteRequest(supplierCode: item.supplierCode),
+                  );
               }
             },
           ),

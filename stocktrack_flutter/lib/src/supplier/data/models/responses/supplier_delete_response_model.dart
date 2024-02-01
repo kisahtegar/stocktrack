@@ -32,8 +32,8 @@ class SupplierDeleteResponseModel extends SupplierDeleteResponse {
   SupplierDeleteResponseModel.fromMap(DataMap map)
       : super(
           code: map['code'] as String,
-          message: map['message'] as String,
-          error: map['error'] as String,
+          message: map['message'] as String?,
+          error: map['error'] as String?,
         );
 
   /// Create a new instance of [SupplierDeleteResponseModel] with optional
