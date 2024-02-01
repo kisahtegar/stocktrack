@@ -43,7 +43,9 @@ class _SupplierBodyState extends State<SupplierBody> {
   }
 
   /// Widget that display dialog article.
-  Future<void> _showAddOrUpdateSupplier({SupplierItem? supplierItem}) async {
+  Future<void> _showAddOrUpdateSupplier({
+    SupplierUpdateRequest? supplierUpdateRequest,
+  }) async {
     final supplierCodeController = TextEditingController();
     final supplierNameController = TextEditingController();
     final addressController = TextEditingController();
@@ -51,12 +53,12 @@ class _SupplierBodyState extends State<SupplierBody> {
     final isActiveController = TextEditingController();
 
     // Checking supplier.
-    if (supplierItem != null) {
-      supplierCodeController.text = supplierItem.supplierCode!;
-      supplierNameController.text = supplierItem.supplierName!;
-      addressController.text = supplierItem.address!;
-      contactController.text = supplierItem.contact!;
-      isActiveController.text = supplierItem.isActive.toString();
+    if (supplierUpdateRequest != null) {
+      supplierCodeController.text = supplierUpdateRequest.supplierCode!;
+      supplierNameController.text = supplierUpdateRequest.supplierName!;
+      addressController.text = supplierUpdateRequest.address!;
+      contactController.text = supplierUpdateRequest.contact!;
+      isActiveController.text = supplierUpdateRequest.isActive.toString();
     }
 
     // Show dialog.
@@ -71,7 +73,7 @@ class _SupplierBodyState extends State<SupplierBody> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  supplierItem != null
+                  supplierUpdateRequest != null
                       ? 'Update Supplier Data'
                       : 'Input Supplier Data',
                   style: const TextStyle(
@@ -132,15 +134,16 @@ class _SupplierBodyState extends State<SupplierBody> {
                             debugPrint('Invalid integer value for isActive');
                           }
 
-                          if (supplierItem != null) {
+                          if (supplierUpdateRequest != null) {
                             context.read<SupplierCubit>().updateSupplier(
                                   SupplierUpdateRequest(
-                                    // TODO(kisahtegar): Need to use supplierId
+                                    supplierId:
+                                        supplierUpdateRequest.supplierId,
                                     supplierCode: supplierCodeController.text,
                                     supplierName: supplierNameController.text,
                                     address: addressController.text,
                                     contact: contactController.text,
-                                    isActive: isActiveController.text as int,
+                                    isActive: isActive,
                                   ),
                                 );
 
@@ -233,6 +236,7 @@ class _SupplierBodyState extends State<SupplierBody> {
       builder: (context) => AlertDialog(
         title: const Text('Supplier Details'),
         content: Text(
+          'Supplier ID: ${_detailedSupplier?.supplierId}\n'
           'Supplier Code: ${_detailedSupplier?.supplierCode}\n'
           'Supplier Name: ${_detailedSupplier?.supplierName}\n'
           'Address: ${_detailedSupplier?.address}\n'
@@ -345,6 +349,9 @@ class _SupplierBodyState extends State<SupplierBody> {
                   source: _SupplierDataSorce(
                     data: suppliers ?? [],
                     onView: (request) => _getDetailSupplier(request: request),
+                    onEdit: (request) => _showAddOrUpdateSupplier(
+                      supplierUpdateRequest: request,
+                    ),
                     onDelete: (request) => _deleteSupplier(request: request),
                   ),
                 ),
@@ -362,13 +369,13 @@ class _SupplierDataSorce extends DataTableSource {
   _SupplierDataSorce({
     required this.data,
     required this.onView,
-    // this.onEdit,
+    required this.onEdit,
     required this.onDelete,
   });
 
   final List<SupplierItem> data;
   final void Function(SupplierDetailRequest) onView;
-  // final Function(SupplierItem) onEdit;
+  final void Function(SupplierUpdateRequest) onEdit;
   final void Function(SupplierDeleteRequest) onDelete;
 
   @override
@@ -398,7 +405,7 @@ class _SupplierDataSorce extends DataTableSource {
             ),
             child: Center(
               child: Text(
-                item.isActive == 1 ? 'active' : 'InActive',
+                item.isActive == 1 ? 'Active' : 'InActive',
                 style: const TextStyle(
                   color: Colors.white,
                 ),
@@ -439,7 +446,16 @@ class _SupplierDataSorce extends DataTableSource {
                     SupplierDetailRequest(supplierCode: item.supplierCode),
                   );
                 case 'edit':
-                // _handleEditAction(item);
+                  onEdit(
+                    SupplierUpdateRequest(
+                      supplierId: item.supplierId,
+                      supplierCode: item.supplierCode,
+                      supplierName: item.supplierName,
+                      address: item.address,
+                      contact: item.contact,
+                      isActive: item.isActive,
+                    ),
+                  );
                 case 'delete':
                   onDelete(
                     SupplierDeleteRequest(supplierCode: item.supplierCode),
