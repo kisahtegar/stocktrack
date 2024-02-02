@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:equatable/equatable.dart';
@@ -10,11 +9,6 @@ class UserLoginRequest extends Equatable {
     required this.username,
     required this.password,
   });
-
-  /// Creates an empty `UserLoginRequest` with blank `username` and `password`.
-  const UserLoginRequest.empty()
-      : username = '',
-        password = '';
 
   /// The username used for authentication.
   final String username;
@@ -28,8 +22,8 @@ class UserLoginRequest extends Equatable {
   @override
   List<Object?> get props => [username, password];
 
-  /// Overrides the `toString()` method to provide a human-readable
-  /// representation of the `UserLoginRequest` instance.
+  /// Overrides the `toString()` method to provide a human-readable representation
+  /// of the `UserLoginRequest` instance.
   @override
   String toString() {
     return 'UserLoginRequest{username: $username, password: $password}';
@@ -123,6 +117,8 @@ class LocalUser extends Equatable {
   @override
   List<Object?> get props => [userId, username, fullName, createdDate];
 
+  /// Overrides the `toString()` method to provide a human-readable representation
+  /// of the `LocalUser` instance.
   @override
   String toString() {
     return 'LocalUser{userId: $userId, username: $username, fullName: '

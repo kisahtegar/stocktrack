@@ -27,7 +27,7 @@ class SidebarDashboard extends StatelessWidget {
         itemTextPadding: const EdgeInsets.only(left: 30),
         selectedItemTextPadding: const EdgeInsets.only(left: 30),
         decoration: const BoxDecoration(
-          color: Colours.canvasSidebarColour,
+          color: Color.fromARGB(126, 216, 255, 221),
         ),
         selectedItemDecoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -60,7 +60,7 @@ class SidebarDashboard extends StatelessWidget {
       extendedTheme: const SidebarXTheme(
         width: 200,
         decoration: BoxDecoration(
-          color: Colours.canvasSidebarColour,
+          color: Color.fromARGB(126, 216, 255, 221),
         ),
       ),
     );

@@ -11,12 +11,5 @@ abstract class AuthRepo {
   const AuthRepo();
 
   /// Performs user sign-in.
-  ResultFuture<UserLoginResponse> signIn({
-    required String username,
-    required String password,
-  });
-
-  // ResultFuture<void> signOut();
-
-  // ResultFuture<TokenRefreshResponse> refreshAccessToken(String refreshToken);
+  ResultFuture<UserLoginResponse> signIn(UserLoginRequest userLoginRequest);
 }

@@ -39,6 +39,7 @@ func (s *supplierUsecase) GetAllSuppliers(paginationRequest sharedGlobal.Paginat
 			SupplierName: supplier.SupplierName,
 			Address:      supplier.Address,
 			Contact:      supplier.Contact,
+			IsActive:     supplier.IsActive,
 		})
 	}
 

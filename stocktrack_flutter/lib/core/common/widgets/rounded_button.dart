@@ -33,6 +33,7 @@ class RoundedButton extends StatelessWidget {
     required this.onPressed,
     this.buttonColour,
     this.labelColour,
+    this.minimumSize,
     super.key,
   });
 
@@ -40,6 +41,7 @@ class RoundedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color? buttonColour;
   final Color? labelColour;
+  final Size? minimumSize;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class RoundedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: buttonColour ?? Colours.primaryColour,
         foregroundColor: labelColour ?? Colors.white,
-        minimumSize: const Size(double.maxFinite, 50),
+        minimumSize: minimumSize ?? const Size(double.maxFinite, 50),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),

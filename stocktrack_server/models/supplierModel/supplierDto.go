@@ -7,6 +7,7 @@ type (
 		SupplierName string `json:"supplier_name"`
 		Address      string `json:"address"`
 		Contact      string `json:"contact"`
+		IsActive     int32  `json:"is_active"`
 	}
 
 	SupplierRequest struct {

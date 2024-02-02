@@ -1,9 +1,13 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:stocktrack_flutter/core/common/app/tab_navigator.dart';
 import 'package:stocktrack_flutter/core/common/views/presistent_view.dart';
+import 'package:stocktrack_flutter/core/services/injection_container.dart';
 import 'package:stocktrack_flutter/src/home/presentation/views/home_view.dart';
 import 'package:stocktrack_flutter/src/item/presentation/views/item_view.dart';
+import 'package:stocktrack_flutter/src/supplier/presentation/app/cubit/supplier_cubit.dart';
+import 'package:stocktrack_flutter/src/supplier/presentation/views/supplier_view.dart';
 
 /// `DashboardController` is responsible for managing the state and navigation
 /// within your dashboard, while the `PersistentView` widget is responsible for
@@ -17,13 +21,26 @@ class DashboardController extends ChangeNotifier {
   List<int> _indexHistory = [0];
 
   // This variable keeps track of the currently selected screen index.
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   int get currentIndex => _currentIndex;
 
   final List<Widget> _screens = [
     // Home View
     ChangeNotifierProvider(
       create: (_) => TabNavigator(TabItem(child: const HomeView())),
+      child: const PersistentView(),
+    ),
+
+    // Supplier View
+    ChangeNotifierProvider(
+      create: (_) => TabNavigator(
+        TabItem(
+          child: BlocProvider(
+            create: (context) => sl<SupplierCubit>(),
+            child: const SupplierView(),
+          ),
+        ),
+      ),
       child: const PersistentView(),
     ),
 

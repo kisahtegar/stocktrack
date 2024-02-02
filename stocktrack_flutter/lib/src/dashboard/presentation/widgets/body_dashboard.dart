@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stocktrack_flutter/core/res/colours.dart';
+import 'package:stocktrack_flutter/core/services/app_router.dart';
+import 'package:stocktrack_flutter/core/services/injection_container.dart';
+import 'package:stocktrack_flutter/core/services/storage_service.dart';
+import 'package:stocktrack_flutter/core/utils/route_utils.dart';
 
 /// The body of the Dashboard screen that holds the app bar and displays the
 /// selected screen based on the current index.
@@ -32,7 +36,13 @@ class BodyDashboard extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              // Clearing all storage service specially for token.
+              sl<StorageService>().clearAll();
+
+              // Go to Sign-in page.
+              AppRouter.router.go(AppPage.signIn.toPath);
+            },
             tooltip: 'Logout',
             icon: const Icon(
               Icons.exit_to_app,
