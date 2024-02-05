@@ -94,6 +94,7 @@ func (s *supplierUsecase) GetDetailSupplier(supplierCode string) (*supplierModel
 		SupplierName: supplier.SupplierName,
 		Address:      supplier.Address,
 		Contact:      supplier.Contact,
+		IsActive:     supplier.IsActive,
 	}
 
 	return &supplierResponse, nil

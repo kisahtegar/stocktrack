@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stocktrack_flutter/core/common/views/loading_view.dart';
+import 'package:stocktrack_flutter/core/common/widgets/dynamic_dropdown_menu.dart';
 import 'package:stocktrack_flutter/core/common/widgets/input_data_widget.dart';
 import 'package:stocktrack_flutter/core/common/widgets/not_found_text.dart';
 import 'package:stocktrack_flutter/core/common/widgets/rounded_button.dart';
@@ -106,11 +107,23 @@ class _SupplierBodyState extends State<SupplierBody> {
                   hintText: 'Input contact',
                   maxLength: 15,
                 ),
-                InputDataWidget(
+                // InputDataWidget(
+                //   inputDataController: isActiveController,
+                //   namaData: 'Status',
+                //   hintText: 'Input address',
+                //   maxLength: 1,
+                // ),
+                DropdownInputWidget(
                   inputDataController: isActiveController,
-                  namaData: 'Status',
+                  label: 'Status',
                   hintText: 'Input address',
                   maxLength: 1,
+                  dropdownItems: const ['0', '1'],
+                  onDropdownChanged: (value) {
+                    // Handle the selected value from the dropdown.
+                    print('Selected value: $value');
+                  },
+                  dropdownValue: isActiveController.text.toString(),
                 ),
                 const Divider(),
                 const SizedBox(height: 50),
@@ -241,7 +254,7 @@ class _SupplierBodyState extends State<SupplierBody> {
           'Supplier Name: ${_detailedSupplier?.supplierName}\n'
           'Address: ${_detailedSupplier?.address}\n'
           'Contact: ${_detailedSupplier?.contact}\n'
-          'IsActive: ${_detailedSupplier?.isActive}',
+          'Status: ${_detailedSupplier?.isActive == 1 ? 'Active' : 'InActive'}',
         ),
         actions: [
           TextButton(
@@ -343,7 +356,7 @@ class _SupplierBodyState extends State<SupplierBody> {
                     DataColumn(label: Text('Supplier Name')),
                     DataColumn(label: Text('address')),
                     DataColumn(label: Text('Contact')),
-                    DataColumn(label: Text('IsActive')),
+                    DataColumn(label: Text('Status')),
                     DataColumn(label: Text('Action')),
                   ],
                   source: _SupplierDataSorce(
